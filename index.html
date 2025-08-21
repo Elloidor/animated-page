@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>мультиКвселенная</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые стили для сброса отступов и установки черного фона */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #000000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Canvas для звездного неба, растянутый на весь экран и помещенный на задний план */
+        #starry-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Контейнер для центрирования текста */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Обертка для контента для вертикального выравнивания */
+        .content-wrapper {
+            text-align: center;
+        }
+
+        /* Стилизация основного текста */
+        .title {
+            color: rgba(255, 255, 255, 0); /* Начальная прозрачность для анимации */
+            font-size: clamp(2rem, 6vw, 5rem); /* Адаптивный размер шрифта */
+            font-weight: 300;
+            text-align: center;
+            letter-spacing: 2px;
+            white-space: nowrap; /* Предотвращаем перенос строки */
+            /* Анимация: 1. Появление, 2. Сдвиг влево */
+            animation: 
+                fadeInFromStars 5s ease-out 0.5s forwards,
+                shiftLeft 1.5s ease-in-out 7.5s forwards;
+        }
+        
+        /* Стили для частей слова, которые будут исчезать */
+        .part-multi, .part-vselennaya {
+            /* Анимация: Затухание */
+            animation: fadeOutLetters 1.5s ease-in-out 7.5s forwards;
+        }
+
+        /* Стилизация большой буквы 'К' */
+        .large-k {
+            font-size: clamp(3rem, 9vw, 7.5rem); /* Увеличенный адаптивный размер */
+            font-weight: 700;
+            vertical-align: middle; /* Выравнивание по центру строки */
+            margin: 0 -0.1em; /* Небольшая коррекция отступов */
+            display: inline-block; /* Для сохранения блочной модели при исчезновении соседей */
+        }
+        
+        /* Контейнер для смены слов */
+        .word-flipper {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+        }
+        
+        /* Стили для нового слова "инофестиваль" */
+        .part-kino {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            overflow: hidden; /* Скрываем текст, который еще не появился */
+            width: auto;
+            color: #ffffff; /* Финальный цвет */
+            text-shadow: /* Такое же свечение, как у финального текста */
+                0 0 5px rgba(255, 255, 255, 1),
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(220, 220, 255, 0.5);
+            animation: revealWord 4s forwards 9s;
+        }
+        
+        /* Стили для подзаголовка */
+        .subtitle {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Размер шрифта увеличен */
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: -0.5rem; /* ИЗМЕНЕНИЕ: Надпись приподнята */
+            color: #ffffff;
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 1),
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(220, 220, 255, 0.5);
+            transform: translateX(-12.5vw); 
+        }
+
+        .subtitle-line {
+            display: block;
+            opacity: 0; /* Изначально скрыты */
+        }
+
+        .line-1 {
+            animation: fadeInSubtitle 2s ease-out 13s forwards;
+        }
+
+        .line-2 {
+            animation: fadeInSubtitle 2s ease-out 13.5s forwards; /* Появление с задержкой */
+        }
+
+        /* Ключевые кадры для анимации появления текста */
+        @keyframes fadeInFromStars {
+            0% {
+                opacity: 0;
+                filter: blur(12px);
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                opacity: 0.8;
+                filter: blur(2px);
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 0.8),
+                    0 0 30px rgba(255, 255, 255, 0.6);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                color: #ffffff;
+                text-shadow: 
+                    0 0 5px rgba(255, 255, 255, 1),
+                    0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 15px rgba(220, 220, 255, 0.5);
+            }
+        }
+
+        /* Анимация сдвига всей надписи влево */
+        @keyframes shiftLeft {
+            to {
+                transform: translateX(-4.875em);
+            }
+        }
+        
+        /* Анимация затухания букв */
+        @keyframes fadeOutLetters {
+            to {
+                opacity: 0;
+            }
+        }
+        
+        /* Анимация появления слова "инофестиваль" с эффектом размытия */
+        @keyframes revealWord {
+            0% {
+                opacity: 0;
+                max-width: 0;
+                filter: blur(10px); /* Начальное размытие */
+            }
+            10% {
+                opacity: 1; /* Делаем текст видимым в начале анимации */
+            }
+            70% {
+                filter: blur(2px); /* Постепенно убираем размытие */
+            }
+            100% {
+                opacity: 1;
+                max-width: 15em;
+                filter: blur(0); /* Финальное состояние без размытия */
+            }
+        }
+        
+        /* Анимация появления подзаголовка */
+        @keyframes fadeInSubtitle {
+            from {
+                opacity: 0;
+                filter: blur(5px);
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Элемент Canvas для отрисовки звезд -->
+    <canvas id="starry-sky"></canvas>
+
+    <!-- Контейнер с текстом -->
+    <div class="container">
+        <div class="content-wrapper">
+            <h1 class="title">
+                <span class="part-multi">мульти</span><span class="large-k">К</span><span class="word-flipper">
+                    <span class="part-vselennaya">вселенная</span>
+                    <span class="part-kino">инофестиваль</span>
+                </span>
+            </h1>
+            <div class="subtitle">
+                <span class="subtitle-line line-1">Волшебный</span>
+                <span class="subtitle-line line-2">Фонарь</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript для звездного неба остался без изменений
+        const canvas = document.getElementById('starry-sky');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const numStars = 500;
+
+        function setup() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random() * 0.5 + 0.5,
+                    twinkleSpeed: (Math.random() - 0.5) * 0.015
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+            });
+        }
+
+        function update() {
+            stars.forEach(star => {
+                star.alpha += star.twinkleSpeed;
+                if (star.alpha <= 0.2 || star.alpha >= 1) {
+                    star.twinkleSpeed = -star.twinkleSpeed;
+                }
+            });
+        }
+
+        function animate() {
+            update();
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', setup);
+
+        setup();
+        animate();
+    </script>
+
+</body>
+</html>
