@@ -44,6 +44,18 @@
             text-align: center;
         }
 
+        /* Стили для изображения */
+        .swaying-image {
+            display: block;
+            margin: 0 auto 1rem; /* Центрирование и отступ снизу */
+            width: clamp(200px, 40vw, 360px); /* Адаптивная ширина увеличена вдвое */
+            opacity: 0; /* Изначально скрыто */
+            /* Анимация: 1. Появление, 2. Покачивание */
+            animation:
+                fadeInImage 2s ease-out 16s forwards,
+                sway 6s ease-in-out 18s infinite;
+        }
+
         /* Стилизация основного текста */
         .title {
             color: rgba(255, 255, 255, 0); /* Начальная прозрачность для анимации */
@@ -96,7 +108,7 @@
             animation: revealWord 4s forwards 9s;
         }
         
-        /* ИЗМЕНЕНИЕ: Стили для подзаголовка */
+        /* Стили для подзаголовка */
         .subtitle {
             font-size: clamp(2.5rem, 6vw, 4.5rem); /* Размер шрифта */
             font-weight: 300;
@@ -197,6 +209,26 @@
                 transform: translateY(0);
             }
         }
+
+        /* Анимация появления изображения */
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Анимация покачивания */
+        @keyframes sway {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(4deg);
+            }
+            75% {
+                transform: rotate(-4deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -207,7 +239,9 @@
     <!-- Контейнер с текстом -->
     <div class="container">
         <div class="content-wrapper">
-            <!-- ИЗМЕНЕНИЕ: Подзаголовок теперь находится внутри основного заголовка, чтобы они двигались вместе -->
+            <!-- ИЗМЕНЕНИЕ: Изображение заменено -->
+            <img src="https://i.ibb.co/D6Qvc1Y/Chat-GPT-Image-Aug-21-2025-10-26-04-PM.png" alt="Новое изображение волшебного фонаря" class="swaying-image" border="0" onerror="this.style.display='none'">
+            
             <h1 class="title">
                 <span>
                     <span class="part-multi">мульти</span><span class="large-k">К</span><span class="word-flipper">
