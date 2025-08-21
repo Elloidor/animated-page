@@ -51,7 +51,7 @@
             font-weight: 300;
             text-align: center;
             letter-spacing: 2px;
-            white-space: nowrap; /* Предотвращаем перенос строки */
+            white-space: nowrap; /* Предотвращаем перенос строки для основной надписи */
             /* Анимация: 1. Появление, 2. Сдвиг влево */
             animation: 
                 fadeInFromStars 5s ease-out 0.5s forwards,
@@ -96,18 +96,18 @@
             animation: revealWord 4s forwards 9s;
         }
         
-        /* Стили для подзаголовка */
+        /* ИЗМЕНЕНИЕ: Стили для подзаголовка */
         .subtitle {
-            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Размер шрифта увеличен */
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Размер шрифта */
             font-weight: 300;
             letter-spacing: 2px;
-            margin-top: -0.5rem; /* ИЗМЕНЕНИЕ: Надпись приподнята */
+            margin-top: -1rem; /* Надпись приподнята еще выше */
             color: #ffffff;
             text-shadow:
                 0 0 5px rgba(255, 255, 255, 1),
                 0 0 10px rgba(255, 255, 255, 0.8),
                 0 0 15px rgba(220, 220, 255, 0.5);
-            transform: translateX(-12.5vw); 
+            white-space: normal; /* Разрешаем перенос строк для подзаголовка */
         }
 
         .subtitle-line {
@@ -207,16 +207,19 @@
     <!-- Контейнер с текстом -->
     <div class="container">
         <div class="content-wrapper">
+            <!-- ИЗМЕНЕНИЕ: Подзаголовок теперь находится внутри основного заголовка, чтобы они двигались вместе -->
             <h1 class="title">
-                <span class="part-multi">мульти</span><span class="large-k">К</span><span class="word-flipper">
-                    <span class="part-vselennaya">вселенная</span>
-                    <span class="part-kino">инофестиваль</span>
+                <span>
+                    <span class="part-multi">мульти</span><span class="large-k">К</span><span class="word-flipper">
+                        <span class="part-vselennaya">вселенная</span>
+                        <span class="part-kino">инофестиваль</span>
+                    </span>
                 </span>
+                <div class="subtitle">
+                    <span class="subtitle-line line-1">Волшебный</span>
+                    <span class="subtitle-line line-2">Фонарь</span>
+                </div>
             </h1>
-            <div class="subtitle">
-                <span class="subtitle-line line-1">Волшебный</span>
-                <span class="subtitle-line line-2">Фонарь</span>
-            </div>
         </div>
     </div>
 
